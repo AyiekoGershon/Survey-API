@@ -1,0 +1,46 @@
+# Render Blueprint for Sky Survey API
+# https://render.com/docs/blueprint-spec
+
+services:
+  # The FastAPI web service
+  - type: web
+    name: sky-survey-api
+    runtime: python
+    repo: https://github.com/YOUR_USERNAME/simple-survey-api  # ← CHANGE THIS to your GitHub repo URL
+    branch: main
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: DB_HOST
+        fromDatabase:
+          name: sky-survey-db
+          property: host
+      - key: DB_PORT
+        fromDatabase:
+          name: sky-survey-db
+          property: port
+      - key: DB_USER
+        fromDatabase:
+          name: sky-survey-db
+          property: user
+      - key: DB_PASSWORD
+        fromDatabase:
+          name: sky-survey-db
+          property: password
+      - key: DB_NAME
+        fromDatabase:
+          name: sky-survey-db
+          property: database
+      - key: DB_POOL_SIZE
+        value: "5"
+    healthCheckPath: /health
+    disk:
+      name: uploads
+      mountPath: /opt/render/project/src/app/uploads
+      sizeGB: 1
+
+databases:
+  - name: sky-survey-db
+    plan: free  # Upgrade to 'starter' ($7/mo) or 'standard' for production
+    databaseName: sky_survey_db
+    postgresMajorVersion: 15

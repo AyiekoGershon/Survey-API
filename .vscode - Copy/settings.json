@@ -1,0 +1,15 @@
+{
+    "python.analysis.diagnosticSeverityOverrides": {
+        "reportGeneralTypeIssues": "warning",
+        "reportOptionalMemberAccess": "warning",
+        "reportOptionalSubscript": "warning",
+        "reportUnusedImport": "warning",
+        "reportUnusedVariable": "warning",
+        "reportUnusedFunction": "warning",
+        "reportIncompatibleMethodOverride": "warning",
+        "reportIncompatibleVariableOverride": "warning",
+        "reportUnknownParameterType": "warning",
+        "reportUnknownArgumentType": "warning",
+        "reportUnknownMemberType": "warning"
+    }
+}
