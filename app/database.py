@@ -16,7 +16,7 @@ db_config: Dict[str, Any] = {
     "host": os.getenv("DB_HOST", "aws-1-eu-central-1.pooler.supabase.com"),
     "port": int(os.getenv("DB_PORT", 5432)),
     "user": os.getenv("DB_USER", "postgres.yieipunlunexjrflrwau"),
-    "password": os.getenv("DB_PASSWORD", "145Gershon#"),
+    "password": os.getenv("DB_PASSWORD", ""),
     "database": os.getenv("DB_NAME", "postgres"),
 }
 
