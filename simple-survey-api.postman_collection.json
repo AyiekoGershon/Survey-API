@@ -1,0 +1,689 @@
+{
+  "info": {
+    "_postman_id": "4b765ad7-f6cd-4e0e-9237-72a73a553e4d",
+    "name": "simple-survey-api",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "55718675",
+    "_collection_link": "https://go.postman.co/collection/55718675-4b765ad7-f6cd-4e0e-9237-72a73a553e4d?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "Default",
+      "item": []
+    },
+    {
+      "name": "Surveys",
+      "item": []
+    },
+    {
+      "name": "Questions",
+      "item": []
+    },
+    {
+      "name": "Responses",
+      "item": []
+    },
+    {
+      "name": "Certificates",
+      "item": []
+    },
+    {
+      "name": "GET / - Root",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Status is 200', () => pm.response.to.have.status(200))",
+              "",
+              "pm.test('Response has message field', () => {",
+              "    const json = pm.response.json();",
+              "    pm.expect(json).to.have.property('message');",
+              "})",
+              "",
+              "pm.test('Message is Sky Survey API', () => {",
+              "    const json = pm.response.json();",
+              "    pm.expect(json.message).to.eql('Sky Survey API');",
+              "})",
+              "",
+              "pm.test('Docs link is present', () => {",
+              "    const json = pm.response.json();",
+              "    pm.expect(json).to.have.property('docs');",
+              "})"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "https://survey-api-luh9.onrender.com/",
+          "protocol": "https",
+          "host": [
+            "survey-api-luh9",
+            "onrender",
+            "com"
+          ],
+          "path": [
+            ""
+          ]
+        },
+        "description": "Generated from cURL: curl -X GET https://survey-api-luh9.onrender.com/"
+      },
+      "response": []
+    },
+    {
+      "name": "GET /health - Health Check",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Status is 200', () => pm.response.to.have.status(200))",
+              "",
+              "pm.test('Status is healthy', () => {",
+              "    const json = pm.response.json();",
+              "    pm.expect(json.status).to.eql('healthy');",
+              "})",
+              "",
+              "pm.test('Response time is acceptable', () => {",
+              "    pm.expect(pm.response.responseTime).to.be.below(5000);",
+              "})"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "https://survey-api-luh9.onrender.com/health",
+          "protocol": "https",
+          "host": [
+            "survey-api-luh9",
+            "onrender",
+            "com"
+          ],
+          "path": [
+            "health"
+          ]
+        },
+        "description": "Generated from cURL: curl -X GET https://survey-api-luh9.onrender.com/health"
+      },
+      "response": []
+    },
+    {
+      "name": "POST /api/surveys - Create Survey",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Status is 201', () => pm.response.to.have.status(201))",
+              "",
+              "pm.test('Response contains survey id', () => {",
+              "    pm.expect(pm.response.text()).to.include('id=');",
+              "})",
+              "",
+              "pm.test('Response contains survey name', () => {",
+              "    pm.expect(pm.response.text()).to.include('Test Survey');",
+              "})"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [],
+        "url": {
+          "raw": "https://survey-api-luh9.onrender.com/api/surveys?name=Test%20Survey&description=A%20test%20survey%20description",
+          "protocol": "https",
+          "host": [
+            "survey-api-luh9",
+            "onrender",
+            "com"
+          ],
+          "path": [
+            "api",
+            "surveys"
+          ],
+          "query": [
+            {
+              "key": "name",
+              "value": "Test%20Survey"
+            },
+            {
+              "key": "description",
+              "value": "A%20test%20survey%20description"
+            }
+          ]
+        },
+        "description": "Generated from cURL: curl -X POST \"https://survey-api-luh9.onrender.com/api/surveys?name=Test%20Survey&description=A%20test%20survey%20description\""
+      },
+      "response": []
+    },
+    {
+      "name": "GET /api/surveys - Get Surveys",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Status is 200', () => pm.response.to.have.status(200))",
+              "",
+              "pm.test('Response is XML', () => {",
+              "    pm.expect(pm.response.headers.get('Content-Type')).to.include('xml');",
+              "})",
+              "",
+              "pm.test('Response contains surveys element', () => {",
+              "    pm.expect(pm.response.text()).to.include('<surveys>');",
+              "})",
+              "",
+              "pm.test('Response time is acceptable', () => {",
+              "    pm.expect(pm.response.responseTime).to.be.below(5000);",
+              "})"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "https://survey-api-luh9.onrender.com/api/surveys",
+          "protocol": "https",
+          "host": [
+            "survey-api-luh9",
+            "onrender",
+            "com"
+          ],
+          "path": [
+            "api",
+            "surveys"
+          ]
+        },
+        "description": "Generated from cURL: curl -X GET https://survey-api-luh9.onrender.com/api/surveys"
+      },
+      "response": []
+    },
+    {
+      "name": "GET /api/surveys/{survey_id} - Get Survey",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Status is 200', () => pm.response.to.have.status(200))",
+              "",
+              "pm.test('Response contains survey id', () => {",
+              "    pm.expect(pm.response.text()).to.include(pm.collectionVariables.get('survey_id'));",
+              "})",
+              "",
+              "pm.test('Response contains name field', () => {",
+              "    pm.expect(pm.response.text()).to.include('<name>');",
+              "})",
+              "",
+              "pm.test('Response contains is_active field', () => {",
+              "    pm.expect(pm.response.text()).to.include('<is_active>');",
+              "})"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "https://survey-api-luh9.onrender.com/api/surveys/1",
+          "protocol": "https",
+          "host": [
+            "survey-api-luh9",
+            "onrender",
+            "com"
+          ],
+          "path": [
+            "api",
+            "surveys",
+            "1"
+          ]
+        },
+        "description": "Generated from cURL: curl -X GET \"https://survey-api-luh9.onrender.com/api/surveys/{{survey_id}}\""
+      },
+      "response": []
+    },
+    {
+      "name": "PUT /api/surveys/{survey_id} - Update Survey",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Status is 200', () => pm.response.to.have.status(200))",
+              "",
+              "pm.test('Response contains updated name', () => {",
+              "    pm.expect(pm.response.text()).to.include('Updated Survey Name');",
+              "})"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "PUT",
+        "header": [],
+        "url": {
+          "raw": "https://survey-api-luh9.onrender.com/api/surveys/1",
+          "protocol": "https",
+          "host": [
+            "survey-api-luh9",
+            "onrender",
+            "com"
+          ],
+          "path": [
+            "api",
+            "surveys",
+            "1"
+          ],
+          "query": [
+            {
+              "key": "name",
+              "value": "Updated Survey Name"
+            }
+          ]
+        },
+        "description": "Generated from cURL: curl -X PUT \"https://survey-api-luh9.onrender.com/api/surveys/{{survey_id}}?name=Updated%20Survey%20Name\""
+      },
+      "response": []
+    },
+    {
+      "name": "DELETE /api/surveys/{survey_id} - Delete Survey",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Status is 200 or 204', () => {",
+              "    pm.expect(pm.response.code).to.be.oneOf([",
+              "        200,",
+              "        204",
+              "    ]);",
+              "})"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "https://survey-api-luh9.onrender.com/api/surveys/1",
+          "protocol": "https",
+          "host": [
+            "survey-api-luh9",
+            "onrender",
+            "com"
+          ],
+          "path": [
+            "api",
+            "surveys",
+            "1"
+          ]
+        },
+        "description": "Generated from cURL: curl -X DELETE \"https://survey-api-luh9.onrender.com/api/surveys/{{survey_id}}\""
+      },
+      "response": []
+    },
+    {
+      "name": "POST /api/surveys/{survey_id}/questions - Create Question",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Status is 201', () => pm.response.to.have.status(201))",
+              "",
+              "pm.test('Response contains question', () => {",
+              "    pm.expect(pm.response.text()).to.include('What is your name?');",
+              "})"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [],
+        "url": {
+          "raw": "https://survey-api-luh9.onrender.com/api/surveys/1/questions",
+          "protocol": "https",
+          "host": [
+            "survey-api-luh9",
+            "onrender",
+            "com"
+          ],
+          "path": [
+            "api",
+            "surveys",
+            "1",
+            "questions"
+          ],
+          "query": [
+            {
+              "key": "text",
+              "value": "What is your name?"
+            },
+            {
+              "key": "question_type",
+              "value": "text"
+            }
+          ]
+        },
+        "description": "Generated from cURL: curl -X POST \"https://survey-api-luh9.onrender.com/api/surveys/{{survey_id}}/questions?text=What%20is%20your%20name%3F&question_type=text\""
+      },
+      "response": []
+    },
+    {
+      "name": "GET /api/surveys/{survey_id}/questions - Get Survey Questions",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Status is 200', () => pm.response.to.have.status(200))",
+              "",
+              "pm.test('Response is XML', () => {",
+              "    pm.expect(pm.response.headers.get('Content-Type')).to.include('xml');",
+              "})",
+              "",
+              "pm.test('Response contains questions', () => {",
+              "    pm.expect(pm.response.text()).to.include('<questions>');",
+              "})"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "https://survey-api-luh9.onrender.com/api/surveys/1/questions",
+          "protocol": "https",
+          "host": [
+            "survey-api-luh9",
+            "onrender",
+            "com"
+          ],
+          "path": [
+            "api",
+            "surveys",
+            "1",
+            "questions"
+          ]
+        },
+        "description": "Generated from cURL: curl -X GET \"https://survey-api-luh9.onrender.com/api/surveys/{{survey_id}}/questions\""
+      },
+      "response": []
+    },
+    {
+      "name": "PUT /questions/{question_id} - Update Question",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Status is 200', () => pm.response.to.have.status(200))",
+              "",
+              "pm.test('Response contains updated text', () => {",
+              "    pm.expect(pm.response.text()).to.include('Updated question text?');",
+              "})"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "PUT",
+        "header": [],
+        "url": {
+          "raw": "https://survey-api-luh9.onrender.com/api/questions/1",
+          "protocol": "https",
+          "host": [
+            "survey-api-luh9",
+            "onrender",
+            "com"
+          ],
+          "path": [
+            "api",
+            "questions",
+            "1"
+          ],
+          "query": [
+            {
+              "key": "text",
+              "value": "Updated question text?"
+            }
+          ]
+        },
+        "description": "Generated from cURL: curl -X PUT \"https://survey-api-luh9.onrender.com/api/questions/{{question_id}}?text=Updated%20question%20text%3F\""
+      },
+      "response": []
+    },
+    {
+      "name": "DELETE /questions/{question_id} - Delete Question",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Status is 200 or 204', () => {",
+              "    pm.expect(pm.response.code).to.be.oneOf([",
+              "        200,",
+              "        204",
+              "    ]);",
+              "})"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "https://survey-api-luh9.onrender.com/api/questions/1",
+          "protocol": "https",
+          "host": [
+            "survey-api-luh9",
+            "onrender",
+            "com"
+          ],
+          "path": [
+            "api",
+            "questions",
+            "1"
+          ]
+        },
+        "description": "Generated from cURL: curl -X DELETE \"https://survey-api-luh9.onrender.com/api/questions/{{question_id}}\""
+      },
+      "response": []
+    },
+    {
+      "name": "POST /api/surveys/{survey_id}/responses - Submit Response",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Status is 201', () => pm.response.to.have.status(201))",
+              "",
+              "pm.test('Response contains response data', () => {",
+              "    pm.expect(pm.response.text()).to.not.be.empty;",
+              "})"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [],
+        "url": {
+          "raw": "https://survey-api-luh9.onrender.com/api/surveys/1/responses",
+          "protocol": "https",
+          "host": [
+            "survey-api-luh9",
+            "onrender",
+            "com"
+          ],
+          "path": [
+            "api",
+            "surveys",
+            "1",
+            "responses"
+          ],
+          "query": [
+            {
+              "key": "respondent_name",
+              "value": "John Doe"
+            },
+            {
+              "key": "respondent_email",
+              "value": "john@example.com"
+            }
+          ]
+        },
+        "description": "Generated from cURL: curl -X POST \"https://survey-api-luh9.onrender.com/api/surveys/{{survey_id}}/responses?respondent_name=John%20Doe&respondent_email=john%40example.com\""
+      },
+      "response": []
+    },
+    {
+      "name": "GET /api/surveys/{survey_id}/responses - Get Responses",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Status is 200', () => pm.response.to.have.status(200))",
+              "",
+              "pm.test('Response is XML', () => {",
+              "    pm.expect(pm.response.headers.get('Content-Type')).to.include('xml');",
+              "})"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "https://survey-api-luh9.onrender.com/api/surveys/1/responses",
+          "protocol": "https",
+          "host": [
+            "survey-api-luh9",
+            "onrender",
+            "com"
+          ],
+          "path": [
+            "api",
+            "surveys",
+            "1",
+            "responses"
+          ]
+        },
+        "description": "Generated from cURL: curl -X GET \"https://survey-api-luh9.onrender.com/api/surveys/{{survey_id}}/responses\""
+      },
+      "response": []
+    },
+    {
+      "name": "GET /api/certificates/{certificate_id} - Download Certificate",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Status is 200 or 404', () => {",
+              "    pm.expect(pm.response.code).to.be.oneOf([",
+              "        200,",
+              "        404",
+              "    ]);",
+              "})",
+              "",
+              "pm.test('Response time is acceptable', () => {",
+              "    pm.expect(pm.response.responseTime).to.be.below(5000);",
+              "})"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "https://survey-api-luh9.onrender.com/api/certificates/1",
+          "protocol": "https",
+          "host": [
+            "survey-api-luh9",
+            "onrender",
+            "com"
+          ],
+          "path": [
+            "api",
+            "certificates",
+            "1"
+          ]
+        },
+        "description": "Generated from cURL: curl -X GET \"https://survey-api-luh9.onrender.com/api/certificates/{{certificate_id}}\""
+      },
+      "response": []
+    },
+    {
+      "name": "GET /api/responses/{response_id}/certificates - Get Response Certificates",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Status is 200', () => pm.response.to.have.status(200))",
+              "",
+              "pm.test('Response is not empty', () => {",
+              "    pm.expect(pm.response.text()).to.not.be.empty;",
+              "})"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "https://survey-api-luh9.onrender.com/api/responses/1/certificates",
+          "protocol": "https",
+          "host": [
+            "survey-api-luh9",
+            "onrender",
+            "com"
+          ],
+          "path": [
+            "api",
+            "responses",
+            "1",
+            "certificates"
+          ]
+        },
+        "description": "Generated from cURL: curl -X GET \"https://survey-api-luh9.onrender.com/api/responses/{{response_id}}/certificates\""
+      },
+      "response": []
+    }
+  ]
+}
