@@ -4,6 +4,7 @@ from app.database import get_db_connection
 from app.services.xml_service import dict_to_xml
 from app.services.supabase_storage import download_file, file_exists
 import io
+import json
 
 router = APIRouter()
 
@@ -24,15 +25,28 @@ async def download_certificate(certificate_id: int):
         if not certificate:
             raise HTTPException(status_code=404, detail="Certificate not found")
 
-        # Check if file exists in Supabase Storage
-        if not file_exists(certificate["file_path"]):
-            raise HTTPException(status_code=404, detail="Certificate file not found in storage")
+        file_path = certificate["file_path"]
+        filename = certificate["filename"]
 
-        # Download file content from Supabase Storage
-        file_content = download_file(certificate["file_path"])
+        # Check if file exists in Supabase Storage
+        try:
+            file_exists_check = file_exists(file_path)
+        except Exception as e:
+            # If file_exists fails (e.g., bucket not found), try downloading anyway
+            file_exists_check = False
+            print(f"Warning: file_exists check failed: {e}")
+
+        if not file_exists_check:
+            # Try to download directly - the file might still be accessible
+            try:
+                file_content = download_file(file_path)
+            except Exception as e:
+                raise HTTPException(status_code=404, detail=f"Certificate file not found in storage: {str(e)}")
+        else:
+            # Download file content from Supabase Storage
+            file_content = download_file(file_path)
 
         # Determine media type based on file extension
-        filename = certificate["filename"]
         if filename.lower().endswith(".pdf"):
             media_type = "application/pdf"
         elif filename.lower().endswith((".png", ".jpg", ".jpeg", ".gif", ".webp")):
