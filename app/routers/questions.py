@@ -1,6 +1,7 @@
 from fastapi import APIRouter, HTTPException, status, Form
 from fastapi.responses import Response
-from typing import Optional
+from typing import Optional, Dict, Any
+
 import json
 from app.database import get_db_connection
 from app.services.xml_service import dict_to_xml
@@ -81,13 +82,13 @@ async def create_question(
         }
         
         if type in ["single_choice", "multiple_choice"] and options:
-            options_dict = {"options": {"@multiple": "yes" if type == "multiple_choice" else "no"}}
+            options_dict: Dict[str, Any] = {"options": {"@multiple": "yes" if type == "multiple_choice" else "no"}}
             for opt in json.loads(options):
                 options_dict["options"][f"option_{opt['value']}"] = {
                     "@value": opt["value"],
                     "#text": opt["label"]
                 }
-            question_data["question"].update(options_dict)
+            question_data["question"].update(options_dict)  # type: ignore[arg-type]
         
         return Response(content=dict_to_xml(question_data), media_type="application/xml", status_code=status.HTTP_201_CREATED)
         
@@ -148,7 +149,8 @@ async def get_survey_questions(survey_id: int):
                         "@value": opt["option_value"],
                         "#text": opt["option_label"]
                     }
-                question_data.update(options_dict)
+                question_data.update(options_dict)  # type: ignore[arg-type]
+
             
             # Add file properties (handle both string and pre-parsed dict from PostgreSQL JSON column)
             if q["type"] == "file" and q["file_properties"]:

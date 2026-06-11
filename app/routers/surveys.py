@@ -125,8 +125,9 @@ async def update_survey(survey_id: int, request: Request):
     description = form.get("description") or request.query_params.get("description")
     is_active_str = form.get("is_active") or request.query_params.get("is_active")
     is_active = None
-    if is_active_str is not None:
+    if is_active_str is not None and isinstance(is_active_str, str):
         is_active = is_active_str.lower() in ("true", "1", "yes")
+
     conn = get_db_connection()
     cursor = conn.cursor()
     
