@@ -6,6 +6,7 @@ from app.database import get_db_connection
 from app.services.xml_service import dict_to_xml
 from app.services.supabase_storage import upload_file as supabase_upload
 import os
+import re
 
 UPLOAD_DIR = os.path.join("app", "uploads", "files")
 os.makedirs(UPLOAD_DIR, exist_ok=True)
@@ -197,9 +198,17 @@ async def get_responses(
                 "date_responded": resp["submitted_at"].strftime("%Y-%m-%d %H:%M:%S") if resp["submitted_at"] else ""
             }
 
-            # Add text answers
+                        # Add text answers
             for ans in answers:
-                response_entry[ans["name"]] = ans["value"]
+                                # Sanitize question name for use as XML element tag
+                # XML element names cannot contain spaces or special characters
+                safe_name = re.sub(r'[^a-zA-Z0-9_\-]', '_', ans["name"])
+                # Ensure it doesn't start with a number or special char
+                if safe_name and (safe_name[0].isdigit() or safe_name[0] == '-' or safe_name[0] == '_'):
+                    safe_name = 'q_' + safe_name
+                if not safe_name:
+                    safe_name = 'answer'
+                response_entry[safe_name] = ans["value"]
 
             # Add certificates with download links
             if certs:
