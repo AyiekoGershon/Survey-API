@@ -75,7 +75,7 @@ async def submit_response(survey_id: int, request: Request) -> Response:
             q_type = question_info["type"]
 
             # Handle file uploads
-            if isinstance(value, UploadFile):
+            if _is_file_upload(value):
                 if value.filename:
                     # Upload file to Supabase Storage
                     storage_path = await supabase_upload(value, response_id)
